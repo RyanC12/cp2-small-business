@@ -8,7 +8,6 @@ import Nav from './components/Nav';
 import Router from './Router';
 
 function App() {
-  console.log("process", process.env)
 
   return (
     <Provider className="App" store={store}>

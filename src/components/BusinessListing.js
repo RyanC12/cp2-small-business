@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from "react-redux";
 import { deleteBusiness } from "../redux/action";
 
@@ -12,15 +12,16 @@ import TableCell from '@material-ui/core/TableCell';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from "@material-ui/icons/Delete";
 
+import SelectedBusiness from './SelectedBusiness';
+
 const useStyles = makeStyles({
     table: {
         minWidth: 650,
     },
 });
 
-const BusinessListing = ({ locations, deleteBusiness}) => {
+const BusinessListing = ({ user, locations, deleteBusiness }) => {
     const classes = useStyles();
-    console.log("locations",locations)
     return (
         <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">
@@ -30,20 +31,28 @@ const BusinessListing = ({ locations, deleteBusiness}) => {
                         <TableCell align="left">Description</TableCell>
                         <TableCell align="left">Hours</TableCell>
                         <TableCell align="left">Address</TableCell>
-                        <TableCell align="left">Delete</TableCell>
+                        {user ? <TableCell align="left">Delete</TableCell> : null}
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {locations.map((location, i) => (
                         <TableRow key={location.id}>
-                            <TableCell component="th" scope="row">{location.name} </TableCell>
+                            <TableCell component="th" scope="row">
+                                <SelectedBusiness
+                                    location={location}
+                                >
+                                    {location.name}
+                                </SelectedBusiness>
+                            </TableCell>
+
                             <TableCell align="left">{location.description}</TableCell>
                             <TableCell align="left">{location.hours}</TableCell>
                             <TableCell align="left">{location.address}</TableCell>
-                            <TableCell align="left"><DeleteIcon
-                    onClick={() => deleteBusiness(i)}
-                    className="icon text-red"
-                  /></TableCell>
+                            {user ? <TableCell align="left"><DeleteIcon
+                                onClick={() => deleteBusiness(i)}
+                                className="icon text-red"
+                            /></TableCell> :
+                            null}
                         </TableRow>
                     ))}
                 </TableBody>
@@ -62,4 +71,4 @@ const mapDispatchToProps = dispatch => {
         deleteBusiness: i => dispatch(deleteBusiness(i))
     };
 };
-export default connect(mapStateToProps,mapDispatchToProps)(BusinessListing);
+export default connect(mapStateToProps, mapDispatchToProps)(BusinessListing);

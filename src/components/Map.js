@@ -1,14 +1,15 @@
 import React from 'react'
+
 import { Container } from "@material-ui/core/";
 import GoogleMapReact from "google-map-react";
+import LocationOnIcon from '@material-ui/icons/LocationOn';
 
-const Map = () => {
-    const AnyReactComponent = ({ text }) => <div>{text}</div>;
+const Map = (props) => {
 
     const defaultProps = {
         center: {
-            lat: 59.95,
-            lng: 30.33
+            lat: props.lat,
+            lng: props.lng,
         },
         zoom: 11
     };
@@ -22,10 +23,9 @@ const Map = () => {
                 yesIWantToUseGoogleMapApiInternals
 
             >
-                <AnyReactComponent
-                    lat={59.955413}
-                    lng={30.337844}
-                    text="My Marker"
+                <LocationOnIcon
+                    lat={props.lat}
+                    lng={props.lng}
                 />
 
             </GoogleMapReact>

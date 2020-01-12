@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+
+import { connect } from 'react-redux';
+import {login} from '../redux/action';
+
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { Button, Container } from '@material-ui/core/';
-import { connect } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
     formContainer: {
@@ -21,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const Login = ({ user }) => {
+const Login = ({ login }) => {
     const classes = useStyles();
 
     const [userName, setUserName] = useState("");
@@ -35,10 +38,8 @@ const Login = ({ user }) => {
     };
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (userName !== "" && userPassword !== "") {
-            document.cookie = "loggedIn=true;max-age=60*1000"
-            const user = { userName };
-        }
+            const user = userName;
+            login(user);
     };
 
     return (
@@ -62,4 +63,4 @@ const mapStateToProps = state => {
 };
 
 
-export default connect(mapStateToProps)(Login)
+export default connect(mapStateToProps, {login})(Login)
